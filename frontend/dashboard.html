@@ -10,16 +10,33 @@
     <main class="dashboard-page">
         <header class="dashboard-header">
             <div>
-                <p class="badge">Social Feed</p>
-                <h2>Your Dashboard</h2>
+                <p class="badge">Social Control Center</p>
+                <h2>Advanced Social Dashboard</h2>
             </div>
             <button class="btn btn-secondary" onclick="logout()">Logout</button>
         </header>
 
+        <section class="overview-card">
+            <div class="overview-header">
+                <h3>Platform Analytics</h3>
+                <div class="overview-actions">
+                    <button class="btn btn-ghost" onclick="loadOverview()">Refresh Analytics</button>
+                    <button class="btn btn-primary" onclick="simulateAllTables()">Run Full Schema Simulation</button>
+                </div>
+            </div>
+            <div id="tableCounts" class="metrics-grid"></div>
+        </section>
+
         <section class="composer-card">
             <h3>Create Post</h3>
-            <p>Share something with your followers.</p>
+            <p>Share rich posts with media, tags, mentions, and location.</p>
             <textarea id="caption" rows="4" placeholder="What's on your mind?"></textarea>
+            <div class="advanced-inputs">
+                <input id="mediaUrl" type="url" placeholder="Media URL (optional)">
+                <input id="tags" type="text" placeholder="Tags (comma separated)">
+                <input id="mentionedUserId" type="number" placeholder="Mentioned User ID (optional)">
+                <input id="location" type="text" placeholder="Location (optional)">
+            </div>
             <div class="composer-actions">
                 <button id="createPostButton" class="btn btn-primary" onclick="createPost()">Post</button>
                 <button class="btn btn-ghost" onclick="loadPosts()">Refresh Feed</button>

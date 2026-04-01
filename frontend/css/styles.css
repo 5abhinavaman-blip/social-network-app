@@ -43,6 +43,7 @@ a:hover {
 
 .hero-card,
 .auth-card,
+.overview-card,
 .composer-card,
 .post-card {
     background: linear-gradient(180deg, #202845 0%, var(--card) 100%);
@@ -188,6 +189,55 @@ textarea:focus {
     margin: 8px 0 0;
 }
 
+.overview-card {
+    padding: 20px;
+    margin-bottom: 22px;
+}
+
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.overview-header h3 {
+    margin: 0;
+}
+
+.overview-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+}
+
+.metric-card {
+    border: 1px solid var(--border);
+    background: #1a1f34;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.metric-card span {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.metric-card strong {
+    font-size: 1.1rem;
+}
+
 .composer-card {
     padding: 24px;
     margin-bottom: 26px;
@@ -207,6 +257,13 @@ textarea:focus {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+.advanced-inputs {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
 }
 
 .feed-title {

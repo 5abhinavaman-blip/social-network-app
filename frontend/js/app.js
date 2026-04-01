@@ -172,6 +172,51 @@ const renderPosts = (posts) => {
         .join("");
 };
 
+const prettyLabel = (tableName) => tableName.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+
+const renderOverview = (overview) => {
+    const tableCountsContainer = document.getElementById('tableCounts');
+    if (!tableCountsContainer) {
+        return;
+    }
+
+    const entries = Object.entries(overview?.counts || {});
+    if (!entries.length) {
+        tableCountsContainer.innerHTML = '<p class="empty-state">No analytics available yet.</p>';
+        return;
+    }
+
+    tableCountsContainer.innerHTML = entries
+        .map(([tableName, count]) => `
+            <article class="metric-card">
+                <span>${prettyLabel(tableName)}</span>
+                <strong>${count}</strong>
+            </article>
+        `)
+        .join('');
+};
+
+const loadOverview = async () => {
+    try {
+        const overview = await authFetch('/social/overview', { method: 'GET' });
+        renderOverview(overview);
+    } catch (error) {
+        showMessage('dashboardMessage', error.message || 'Unable to load analytics');
+    }
+};
+
+const simulateAllTables = async () => {
+    clearMessage('dashboardMessage');
+
+    try {
+        const result = await authFetch('/social/simulate-all', { method: 'POST' });
+        showMessage('dashboardMessage', result.message || 'Simulation complete', 'success');
+        await Promise.all([loadOverview(), loadPosts()]);
+    } catch (error) {
+        showMessage('dashboardMessage', error.message || 'Simulation failed');
+    }
+};
+
 const loadPosts = async () => {
     const postsContainer = document.getElementById("posts");
     if (postsContainer) {
@@ -201,17 +246,40 @@ const createPost = async () => {
     try {
         setButtonLoading(submitButton, true, "Posting...");
 
+        const mediaUrl = document.getElementById('mediaUrl')?.value.trim() || null;
+        const location = document.getElementById('location')?.value.trim() || null;
+        const mentionedUserIdRaw = document.getElementById('mentionedUserId')?.value.trim();
+        const tagsRaw = document.getElementById('tags')?.value || '';
+        const tags = tagsRaw.split(',').map((tag) => tag.trim()).filter(Boolean);
+        const mentionedUserId = mentionedUserIdRaw ? Number(mentionedUserIdRaw) : null;
+
         await authFetch("/posts", {
             method: "POST",
-            body: JSON.stringify({ caption })
+            body: JSON.stringify({
+                caption,
+                mediaUrl,
+                tags,
+                mentionedUserId,
+                location
+            })
         });
 
         if (captionInput) {
             captionInput.value = "";
         }
 
+        const mediaInput = document.getElementById('mediaUrl');
+        const tagsInput = document.getElementById('tags');
+        const mentionedInput = document.getElementById('mentionedUserId');
+        const locationInput = document.getElementById('location');
+
+        if (mediaInput) mediaInput.value = '';
+        if (tagsInput) tagsInput.value = '';
+        if (mentionedInput) mentionedInput.value = '';
+        if (locationInput) locationInput.value = '';
+
         showMessage("dashboardMessage", "Post created successfully!", "success");
-        await loadPosts();
+        await Promise.all([loadPosts(), loadOverview()]);
     } catch (error) {
         showMessage("dashboardMessage", error.message || "Unable to create post");
     } finally {
@@ -236,11 +304,14 @@ const protectDashboard = () => {
     }
 
     loadPosts();
+    loadOverview();
 };
 
 window.createPost = createPost;
 window.loadPosts = loadPosts;
 window.logout = logout;
+window.loadOverview = loadOverview;
+window.simulateAllTables = simulateAllTables;
 
 attachRegisterHandler();
 attachLoginHandler();
