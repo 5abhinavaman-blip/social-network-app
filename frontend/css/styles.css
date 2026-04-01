@@ -1,13 +1,279 @@
+:root {
+    --bg: #0f1221;
+    --bg-soft: #171a2b;
+    --card: #1e2236;
+    --text: #e8ebff;
+    --muted: #a4accb;
+    --primary: #7c5cff;
+    --primary-hover: #6647ee;
+    --secondary: #2a3152;
+    --success: #29b37f;
+    --danger: #ff5f7d;
+    --border: #2f375e;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+    background: radial-gradient(circle at top right, #1f2852 0%, var(--bg) 50%);
+    color: var(--text);
+}
+
+a {
+    color: #b8b4ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.landing-page,
+.auth-page,
+.dashboard-page {
+    width: min(960px, 92%);
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.hero-card,
+.auth-card,
+.composer-card,
+.post-card {
+    background: linear-gradient(180deg, #202845 0%, var(--card) 100%);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.hero-card {
+    max-width: 680px;
+    margin: 80px auto 0;
+    padding: 44px;
     text-align: center;
 }
 
-input, button {
-    padding: 10px;
-    margin: 5px;
+.hero-card h1 {
+    margin: 8px 0 12px;
+    font-size: clamp(2rem, 5vw, 2.8rem);
 }
 
-#posts {
+.hero-card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.hero-actions {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-block;
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(124, 92, 255, 0.2);
+    color: #cec8ff;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
+.auth-card {
+    max-width: 450px;
+    margin: 70px auto 0;
+    padding: 30px;
+}
+
+.auth-card h2 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.auth-card p {
+    margin-top: 0;
+    color: var(--muted);
+}
+
+.auth-form {
     margin-top: 20px;
+    display: grid;
+    gap: 12px;
+}
+
+label {
+    font-size: 0.92rem;
+    color: #d2d7f2;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #151b30;
+    color: var(--text);
+    font-size: 0.98rem;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #8670ff;
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+}
+
+.auth-link {
+    margin-top: 18px;
+    font-size: 0.92rem;
+}
+
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 11px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--text);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #c9d0ff;
+    border: 1px solid var(--border);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.dashboard-header h2 {
+    margin: 8px 0 0;
+}
+
+.composer-card {
+    padding: 24px;
+    margin-bottom: 26px;
+}
+
+.composer-card h3 {
+    margin: 0;
+}
+
+.composer-card p {
+    margin-top: 8px;
+    color: var(--muted);
+}
+
+.composer-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.feed-title {
+    margin-bottom: 14px;
+}
+
+.posts-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.post-card {
+    padding: 18px;
+}
+
+.post-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-card-header h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.post-card-header span {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.post-card p {
+    margin-bottom: 0;
+    color: #e1e5ff;
+    line-height: 1.5;
+}
+
+.message {
+    min-height: 20px;
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+}
+
+.message.success {
+    color: var(--success);
+}
+
+.message.error {
+    color: var(--danger);
+}
+
+.loading-state,
+.empty-state {
+    margin: 12px 0;
+    color: var(--muted);
+}
+
+@media (max-width: 640px) {
+    .hero-card,
+    .auth-card,
+    .composer-card {
+        padding: 22px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
