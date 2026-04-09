@@ -11,7 +11,7 @@ exports.registerUser = (req, res) => {
 };
 
 exports.getUsers = (req, res) => {
-    db.query("SELECT * FROM users", (err, result) => {
+    db.query("SELECT user_id, username, email, created_at FROM users ORDER BY created_at DESC", (err, result) => {
         if (err) throw err;
         res.json(result);
     });

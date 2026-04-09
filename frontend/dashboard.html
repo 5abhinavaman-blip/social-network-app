@@ -16,7 +16,46 @@
             <button class="btn btn-secondary" onclick="logout()">Logout</button>
         </header>
 
-        <section class="overview-card">
+        <section class="dashboard-top-grid">
+            <div class="dashboard-left-column">
+                <section class="composer-card">
+                    <h3>Create Post</h3>
+                    <p>Share rich posts with media, tags, mentions, and location.</p>
+                    <textarea id="caption" rows="4" placeholder="What's on your mind?"></textarea>
+                    <div class="advanced-inputs">
+                        <input id="mediaUrl" type="url" placeholder="Media URL (optional)">
+                        <input id="tags" type="text" placeholder="Tags (comma separated)">
+                        <input id="mentionedUserId" type="number" placeholder="Mentioned User ID (optional)">
+                        <input id="location" type="text" placeholder="Location (optional)">
+                    </div>
+                    <div class="composer-actions">
+                        <button id="createPostButton" class="btn btn-primary" onclick="createPost()">Post</button>
+                        <button class="btn btn-ghost" onclick="loadPosts()">Refresh Feed</button>
+                    </div>
+                    <p id="dashboardMessage" class="message"></p>
+                </section>
+
+                <section class="feed-card">
+                    <div class="feed-header-row">
+                        <h3 class="feed-title">Latest Posts</h3>
+                        <button class="btn btn-ghost" onclick="loadPosts()">Reload</button>
+                    </div>
+                    <div id="posts" class="posts-grid"></div>
+                </section>
+            </div>
+
+            <aside class="dashboard-right-column">
+                <section class="people-card">
+                    <div class="feed-header-row">
+                        <h3>Registered People</h3>
+                        <button class="btn btn-ghost" onclick="loadUsers()">Refresh</button>
+                    </div>
+                    <div id="usersList" class="users-list"></div>
+                </section>
+            </aside>
+        </section>
+
+        <section class="overview-card bottom-overview-card">
             <div class="overview-header">
                 <h3>Platform Analytics</h3>
                 <div class="overview-actions">
@@ -25,28 +64,6 @@
                 </div>
             </div>
             <div id="tableCounts" class="metrics-grid"></div>
-        </section>
-
-        <section class="composer-card">
-            <h3>Create Post</h3>
-            <p>Share rich posts with media, tags, mentions, and location.</p>
-            <textarea id="caption" rows="4" placeholder="What's on your mind?"></textarea>
-            <div class="advanced-inputs">
-                <input id="mediaUrl" type="url" placeholder="Media URL (optional)">
-                <input id="tags" type="text" placeholder="Tags (comma separated)">
-                <input id="mentionedUserId" type="number" placeholder="Mentioned User ID (optional)">
-                <input id="location" type="text" placeholder="Location (optional)">
-            </div>
-            <div class="composer-actions">
-                <button id="createPostButton" class="btn btn-primary" onclick="createPost()">Post</button>
-                <button class="btn btn-ghost" onclick="loadPosts()">Refresh Feed</button>
-            </div>
-            <p id="dashboardMessage" class="message"></p>
-        </section>
-
-        <section>
-            <h3 class="feed-title">Latest Posts</h3>
-            <div id="posts" class="posts-grid"></div>
         </section>
     </main>
 

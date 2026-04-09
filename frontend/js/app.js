@@ -196,12 +196,60 @@ const renderOverview = (overview) => {
         .join('');
 };
 
+const renderUsers = (users) => {
+    const usersContainer = document.getElementById('usersList');
+    if (!usersContainer) {
+        return;
+    }
+
+    if (!users.length) {
+        usersContainer.innerHTML = '<p class="empty-state">No registered people found.</p>';
+        return;
+    }
+
+    usersContainer.innerHTML = users
+        .map((user) => {
+            const initials = (user.username || 'U')
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join('')
+                .toUpperCase();
+
+            return `
+                <article class="user-card">
+                    <div class="user-avatar">${initials || 'U'}</div>
+                    <div>
+                        <h4>${user.username || 'Unknown User'}</h4>
+                        <p>${user.email || 'No email available'}</p>
+                    </div>
+                </article>
+            `;
+        })
+        .join('');
+};
+
 const loadOverview = async () => {
     try {
         const overview = await authFetch('/social/overview', { method: 'GET' });
         renderOverview(overview);
     } catch (error) {
         showMessage('dashboardMessage', error.message || 'Unable to load analytics');
+    }
+};
+
+const loadUsers = async () => {
+    const usersContainer = document.getElementById('usersList');
+    if (usersContainer) {
+        usersContainer.innerHTML = '<p class="loading-state">Loading people...</p>';
+    }
+
+    try {
+        const users = await authFetch('/users', { method: 'GET' });
+        renderUsers(users);
+    } catch (error) {
+        showMessage('dashboardMessage', error.message || 'Unable to load people');
     }
 };
 
@@ -304,6 +352,7 @@ const protectDashboard = () => {
     }
 
     loadPosts();
+    loadUsers();
     loadOverview();
 };
 
@@ -311,6 +360,7 @@ window.createPost = createPost;
 window.loadPosts = loadPosts;
 window.logout = logout;
 window.loadOverview = loadOverview;
+window.loadUsers = loadUsers;
 window.simulateAllTables = simulateAllTables;
 
 attachRegisterHandler();
